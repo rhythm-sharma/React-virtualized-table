@@ -133,7 +133,7 @@ const ReactTable: React.FC<Props> = (props) => {
   return (
     <div className="mx-auto container bg-white shadow rounded mt-20">
       <div
-        className="w-full overflow-x-scroll xl:overflow-x-hidden"
+        className="w-full overflow-x-scroll"
         onScroll={update}
         style={{ height: viewportHeight }}
       >
