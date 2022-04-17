@@ -66,7 +66,7 @@ export default function App() {
 | :---------------- | :-------------------------------- | :-------: | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | dataField | string | | The field of data you want to show on column.|
 | dataFormat | Function |  | To customize the column. This callback function should return a String or a React Component. In addition, this function taking argument ({ cell : any , row: object }): void |
-| width| number| ✓ | Set the column width of column. ex: '150' or '200' |
+| width| number|  | Set the column width of column. ex: '150' or '200' |
 | tdStyle| Object || Allow you to add your custom style object on TD element  |
 
 
