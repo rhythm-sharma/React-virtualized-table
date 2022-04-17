@@ -1,6 +1,8 @@
 import React from "react";
 
 interface TableHeaderColumnProps {
+  onRowClick?: (rowData: Object, rowIndex: number) => any;
+  onSelectionChange?: (selectedRow: string[] | string) => any;
   dataField?: string;
   dataFormat?: () => any;
   data?: object[];
