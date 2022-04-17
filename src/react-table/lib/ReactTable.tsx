@@ -14,9 +14,9 @@ interface ReactTableProps {
     event: React.SyntheticEvent,
     selectedRow: string[] | string
   ) => any;
-  data?: any[];
+  data: any[];
   children: any;
-  showSelectRow: boolean;
+  showSelectRow?: boolean;
   viewportHeight?: number;
   rowHeight?: number;
   amountRowsBuffered?: number;
@@ -28,7 +28,7 @@ const ReactTable: React.FC<Props> = (props) => {
   const {
     data = [],
     children,
-    showSelectRow,
+    showSelectRow = false,
     onSelectionChange,
     onRowClick,
   } = props;
