@@ -10,6 +10,7 @@ interface TableRowCellProps {
 type Props = TableRowCellProps;
 
 const TableRowCell: React.FC<Props> = (props) => {
+  /* Setting the height of the table row cell to inherit. */
   const styleProps: any = {
     ...props.style,
     height: "inherit",

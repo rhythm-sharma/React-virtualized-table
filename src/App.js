@@ -8,6 +8,7 @@ function App() {
   const [dataLoading, setDataLoading] = useState(false);
   const [toggle, setToggle] = useState(true);
 
+  /* Fetching data from the API and setting the data in the state. */
   useEffect(() => {
     setDataLoading(true);
     fetch(`https://jsonplaceholder.typicode.com/photos`)
@@ -19,6 +20,11 @@ function App() {
       .catch(() => {});
   }, []);
 
+  /**
+   * @param cell - The value of the cell
+   * @param row - The row data
+   * @returns A div.
+   */
   const showUrl = (cell, row) => {
     return (
       <div className="flex items-center">

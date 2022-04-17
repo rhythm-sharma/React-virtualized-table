@@ -47,6 +47,7 @@ const ReactTable: React.FC<Props> = (props) => {
     : 40;
   const amountRows = data.length;
 
+  /* This is to get the width of the table header columns. */
   useLayoutEffect(() => {
     let widths = [];
     for (let i = 0; i < trRef.current.children.length; i++) {
@@ -55,6 +56,7 @@ const ReactTable: React.FC<Props> = (props) => {
     setWidths(widths);
   }, []);
 
+  /* Calculating the start and end index of the data to be displayed. */
   useEffect(() => {
     let indexStart = 0;
     let indexEnd = amountRowsBuffered;
@@ -88,6 +90,10 @@ const ReactTable: React.FC<Props> = (props) => {
     setScrollTop(e.target.scrollTop);
   };
 
+  /**
+   * If the checkbox is checked, set the selected rows to "All", otherwise set it to an empty array
+   * @param event - React.ChangeEvent<HTMLInputElement>
+   */
   const handleSelectedAllRows = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
@@ -105,6 +111,12 @@ const ReactTable: React.FC<Props> = (props) => {
     }
   };
 
+  /**
+   * It takes an event and a selected row, and if the event is checked, it pushes the selected row to the
+   * selectedRows array, otherwise it removes it
+   * @param event - React.ChangeEvent<HTMLInputElement>
+   * @param {string[] | string} selectedRow - This is the row that was selected.
+   */
   const handleSelectedRows = (
     event: React.ChangeEvent<HTMLInputElement>,
     selectedRow: string[] | string
@@ -124,6 +136,12 @@ const ReactTable: React.FC<Props> = (props) => {
     }
   };
 
+  /**
+   * A function that is called when a row is clicked.
+   * @param {any} event - The event that triggered the row click
+   * @param {any} row - The row data
+   * @param {any} index - The index of the row in the table
+   */
   const handleOnRowClick = (event: any, row: any, index: any) => {
     if (onRowClick) {
       onRowClick(event, row, index);

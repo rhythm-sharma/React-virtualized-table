@@ -15,6 +15,7 @@ type dataFormatType = (cell: any, row: any) => any;
 type Props = TableRowCellWrapperProps;
 
 const TableRowCellWrapper: React.FC<Props> = (props) => {
+  /* Destructuring the props object. */
   const { rowChildren, row, keyId, widths, showSelectRow, childProps } = props;
 
   return (
@@ -24,6 +25,7 @@ const TableRowCellWrapper: React.FC<Props> = (props) => {
         const dataField: string = item.props.dataField;
         const index = showSelectRow ? idx + 1 : idx;
         return (
+          /* Rendering the table row cell. */
           <TableRowCell
             key={`${keyId}-${index}`}
             width={widths[index]}
