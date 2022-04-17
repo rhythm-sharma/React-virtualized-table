@@ -1,10 +1,19 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useLayoutEffect } from "react";
 import TableRow from "./TableRow";
 import TableRowCellWrapper from "./TableRowCellWrapper";
 import TableHeaderColumn from "./TableHeaderColumn";
 import TableRowCell from "./TableRowCell";
 
 interface ReactTableProps {
+  onRowClick?: (
+    event: React.SyntheticEvent,
+    rowData: Object,
+    rowIndex: number
+  ) => any;
+  onSelectionChange?: (
+    event: React.SyntheticEvent,
+    selectedRow: string[] | string
+  ) => any;
   data?: any[];
   children: any;
   showSelectRow: boolean;
@@ -16,7 +25,13 @@ interface ReactTableProps {
 type Props = ReactTableProps;
 
 const ReactTable: React.FC<Props> = (props) => {
-  const { data = [], children, showSelectRow } = props;
+  const {
+    data = [],
+    children,
+    showSelectRow,
+    onSelectionChange,
+    onRowClick,
+  } = props;
   const didMount = useRef(false);
 
   const [scrollTop, setScrollTop] = useState<number>(0);
@@ -31,6 +46,14 @@ const ReactTable: React.FC<Props> = (props) => {
     ? props.amountRowsBuffered
     : 40;
   const amountRows = data.length;
+
+  useLayoutEffect(() => {
+    let widths = [];
+    for (let i = 0; i < trRef.current.children.length; i++) {
+      widths.push(trRef.current.children[i].getBoundingClientRect().width);
+    }
+    setWidths(widths);
+  }, []);
 
   useEffect(() => {
     let indexStart = 0;
@@ -67,14 +90,45 @@ const ReactTable: React.FC<Props> = (props) => {
 
   const handleSelectedAllRows = (
     event: React.ChangeEvent<HTMLInputElement>
-  ) => {};
+  ) => {
+    const ischecked = event.currentTarget.checked;
+    let newSelectedRows = null;
+    if (ischecked) {
+      newSelectedRows = "All";
+      setSelectedRows("All");
+    } else {
+      newSelectedRows = [];
+      setSelectedRows([]);
+    }
+    if (onSelectionChange) {
+      onSelectionChange(event, newSelectedRows);
+    }
+  };
 
   const handleSelectedRows = (
     event: React.ChangeEvent<HTMLInputElement>,
     selectedRow: string[] | string
-  ) => {};
+  ) => {
+    let newSelectedRows = JSON.parse(JSON.stringify(selectedRows));
+    if (event.currentTarget.checked) {
+      newSelectedRows.push(selectedRow);
+    } else {
+      const index = newSelectedRows.indexOf(selectedRow);
+      if (index !== -1) {
+        newSelectedRows.splice(index, 1);
+      }
+    }
+    setSelectedRows(newSelectedRows);
+    if (onSelectionChange) {
+      onSelectionChange(event, newSelectedRows);
+    }
+  };
 
-  const handleOnRowClick = (event: any, row: any, index: any) => {};
+  const handleOnRowClick = (event: any, row: any, index: any) => {
+    if (onRowClick) {
+      onRowClick(event, row, index);
+    }
+  };
 
   return (
     <div className="mx-auto container bg-white shadow rounded mt-20">
@@ -151,6 +205,11 @@ const ReactTable: React.FC<Props> = (props) => {
                   </>
                 </TableRow>
               ))}
+            {newData.length === 0 && (
+              <tr className="h-24">
+                <p className="text-gray-600 mt-10 text-center">No data</p>
+              </tr>
+            )}
           </tbody>
         </table>
       </div>
